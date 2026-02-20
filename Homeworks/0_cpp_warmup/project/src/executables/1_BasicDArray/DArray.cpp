@@ -4,7 +4,6 @@
 
 // default constructor
 DArray::DArray() {
-	m_nSize = 0;
 	Init();
 }
 
@@ -20,7 +19,7 @@ DArray::DArray(int nSize, double dValue) {
 
 DArray::DArray(const DArray& arr) {
 	m_nSize = arr.m_nSize;
-	Init();
+	m_pData = new double[m_nSize];
 	for(int i = 0; i < m_nSize; i++) {
 		m_pData[i] = arr.m_pData[i];
 	}
@@ -44,18 +43,15 @@ void DArray::Print() const {
 
 // initilize the array
 void DArray::Init() {
-	if(m_nSize > 0){
-		m_pData = new double[m_nSize];
-	}
-	else{
-		m_pData = nullptr;
-	}
+	m_nSize = 0;
+	m_pData = nullptr;
 	//TODO
 }
 
 // free the array
 void DArray::Free() {
 	delete[] m_pData;
+	Init();
 	//TODO
 }
 
@@ -180,7 +176,7 @@ DArray& DArray::operator = (const DArray& arr) {
 	if(this != &arr){
 		Free();
 		m_nSize = arr.m_nSize;
-		Init();
+		m_pData = new double[m_nSize];
 		for(int i = 0; i < m_nSize; i++) {
 			m_pData[i] = arr.m_pData[i];
 		}
