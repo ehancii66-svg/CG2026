@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "shapes/line.h"
 #include "shapes/rect.h"
+#include "shapes/ellipse.h"
 
 namespace USTC_CG
 {
@@ -53,6 +54,16 @@ void Canvas::set_rect()
     draw_status_ = false;
     shape_type_ = kRect;
 }
+
+void Canvas::set_ellipse(){
+    draw_status_ = false;
+    shape_type_ = kEllipse;
+}
+
+/*void Canvas::set_polygon(){
+    draw_status_ = false;
+    shape_type_ = kPolygon;
+}*/
 
 // HW1_TODO: more shape types, implements
 
@@ -120,6 +131,12 @@ void Canvas::mouse_click_event()
             case USTC_CG::Canvas::kRect:
             {
                 current_shape_ = std::make_shared<Rect>(
+                    start_point_.x, start_point_.y, end_point_.x, end_point_.y);
+                break;
+            }
+            case USTC_CG::Canvas::kEllipse:
+            {
+                current_shape_ = std::make_shared<Ellipse>(
                     start_point_.x, start_point_.y, end_point_.x, end_point_.y);
                 break;
             }
