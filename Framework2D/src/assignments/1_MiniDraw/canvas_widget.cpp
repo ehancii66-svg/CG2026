@@ -6,13 +6,28 @@
 #include "imgui.h"
 #include "shapes/line.h"
 #include "shapes/rect.h"
+#include "shapes/ellipse.h"
+#include "shapes/polygon.h"
 
 namespace USTC_CG
 {
 void Canvas::draw()
 {
     draw_background();
-    // HW1_TODO: more interaction events
+    // HW1_TODO: more interaction events :增加右键结束多边形的绘制
+
+    if (is_hovered_ && ImGui::IsMouseClicked(ImGuiMouseButton_Right)){
+        if (draw_status_ && shape_type_ == USTC_CG::Canvas::kPolygon)
+        {
+            draw_status_ = false;
+            if (current_shape_)
+            {
+                shape_list_.push_back(current_shape_);
+                current_shape_.reset();
+            }
+        }
+    }
+
     if (is_hovered_ && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
         mouse_click_event();
     mouse_move_event();
@@ -52,6 +67,16 @@ void Canvas::set_rect()
 {
     draw_status_ = false;
     shape_type_ = kRect;
+}
+
+void Canvas::set_ellipse(){
+    draw_status_ = false;
+    shape_type_ = kEllipse;
+}
+
+void Canvas::set_polygon(){
+    draw_status_ = false;
+    shape_type_ = kPolygon;
 }
 
 // HW1_TODO: more shape types, implements
@@ -123,19 +148,30 @@ void Canvas::mouse_click_event()
                     start_point_.x, start_point_.y, end_point_.x, end_point_.y);
                 break;
             }
+            case USTC_CG::Canvas::kEllipse:
+            {
+                current_shape_ = std::make_shared<Ellipse>(
+                    start_point_.x, start_point_.y, end_point_.x, end_point_.y);
+                break;
+            }
+            case USTC_CG::Canvas::kPolygon:
+            {
+                /*current_shape_ = std::make_shared<Polygon>(
+                    start_point_.x, start_point_.y, end_point_.x, end_point_.y); */ 
+                break;
+            }
             // HW1_TODO: case USTC_CG::Canvas::kEllipse:
             default: break;
         }
     }
     else
     {
-        draw_status_ = false;
-        if (current_shape_)
-        {
-            shape_list_.push_back(current_shape_);
-            current_shape_.reset();
-        }
-    }
+       if(shape_type_ == USTC_CG::Canvas::kPolygon){
+            // HW1_TODO: add control point for polygon
+            // current_shape_->add_control_point(mouse_pos_in_canvas().x, mouse_pos_in_canvas().y);
+       }
+    } 
+    //其余类型转移到release中
 }
 
 void Canvas::mouse_move_event()
@@ -154,6 +190,14 @@ void Canvas::mouse_move_event()
 void Canvas::mouse_release_event()
 {
     // HW1_TODO: Drawing rule for more primitives
+    if(draw_status_ == true && shape_type_ != USTC_CG::Canvas::kPolygon){
+        draw_status_ = false;
+        if (current_shape_)
+        {
+            shape_list_.push_back(current_shape_);
+            current_shape_.reset();
+        }
+    }
 }
 
 ImVec2 Canvas::mouse_pos_in_canvas() const

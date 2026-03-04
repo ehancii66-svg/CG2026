@@ -41,6 +41,38 @@ void MiniDraw::draw_canvas()
             std::cout << "Set shape to Rect" << std::endl;
             p_canvas_->set_rect();
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Ellipse"))
+        {
+            std::cout << "Set shape to Ellipse" << std::endl;
+            p_canvas_->set_ellipse();
+        }
+        ImGui::SameLine();
+        if(ImGui::Button("Polygon"))
+        {
+            std::cout << "Set shape to Polygon" << std::endl;
+            p_canvas_->set_polygon();
+        }
+        ImGui::SameLine();
+        /* TODO: f(ImGui::Button("Freehand"))
+        {
+            std::cout << "Set shape to Freehand" << std::endl;
+            //p_canvas_->set_freehand();
+        }
+        ImGui::SameLine();*/
+        if(ImGui::Button("Default"))
+        {
+            std::cout << "Set shape to Default" << std::endl;
+            p_canvas_->set_default();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Clear"))
+        {
+            std::cout << "Clear canvas" << std::endl;
+            p_canvas_->clear_shape_list();
+        }
+
+
 
         // HW1_TODO: More primitives
         //    - Ellipse
