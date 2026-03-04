@@ -2,6 +2,8 @@
 
 #include "shape.h"
 
+#include <vector>
+
 namespace USTC_CG
 {
 class Polygon : public Shape
@@ -10,17 +12,7 @@ class Polygon : public Shape
     Polygon() = default;
 
     // Constructor to initialize a Polygon with start and end coordinates
-    Polygon(
-        float start_point_x,
-        float start_point_y,
-        float end_point_x,
-        float end_point_y)
-        : start_point_x_(start_point_x),
-          start_point_y_(start_point_y),
-          end_point_x_(end_point_x),
-          end_point_y_(end_point_y)
-    {
-    }
+    Polygon(float start_point_x, float start_point_y);
 
     virtual ~Polygon() = default;
 
@@ -31,7 +23,9 @@ class Polygon : public Shape
     // interaction
     void update(float x, float y) override;
 
+    void add_point(float x, float y);   //添加新的点
+
    private:
-    float start_point_x_, start_point_y_, end_point_x_, end_point_y_;
+   std::vector<ImVec2> points_;
 };
 }  // namespace USTC_CG
