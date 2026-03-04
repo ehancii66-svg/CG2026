@@ -51,7 +51,7 @@ void MiniDraw::draw_canvas()
         if(ImGui::Button("Polygon"))
         {
             std::cout << "Set shape to Polygon" << std::endl;
-            //p_canvas_->set_polygon();
+            p_canvas_->set_polygon();
         }
         ImGui::SameLine();
         /* TODO: f(ImGui::Button("Freehand"))
