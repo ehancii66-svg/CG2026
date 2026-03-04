@@ -26,7 +26,7 @@ Step 0:
 如果还没有将此仓库获取到本地，请参考[简易说明](../Softwares/Github.md)
 
 获取third_party中的子仓库：
-```
+```P
 git submodule update --init --recursive
 ```
 如遇到网络问题可以多次执行此命令。
