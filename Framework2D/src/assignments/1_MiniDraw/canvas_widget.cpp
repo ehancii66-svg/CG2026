@@ -14,7 +14,7 @@ namespace USTC_CG
 void Canvas::draw()
 {
     draw_background();
-    // HW1_TODO: more interaction events :增加右键结束多边形的绘制
+    // HW1_TODO: more interaction events :增加了右键结束多边形的绘制
 
     if (is_hovered_ && ImGui::IsMouseClicked(ImGuiMouseButton_Right)){
         if (draw_status_ && shape_type_ == USTC_CG::Canvas::kPolygon)
@@ -156,19 +156,18 @@ void Canvas::mouse_click_event()
             }
             case USTC_CG::Canvas::kPolygon:
             {
-                /*current_shape_ = std::make_shared<Polygon>(
-                    start_point_.x, start_point_.y, end_point_.x, end_point_.y); */ 
+                    current_shape_ = std::make_shared<Polygon>(start_point_.x, start_point_.y); 
                 break;
             }
             // HW1_TODO: case USTC_CG::Canvas::kEllipse:
             default: break;
         }
     }
-    else
-    {
+    else {
        if(shape_type_ == USTC_CG::Canvas::kPolygon){
-            // HW1_TODO: add control point for polygon
-            // current_shape_->add_control_point(mouse_pos_in_canvas().x, mouse_pos_in_canvas().y);
+            if(std::shared_ptr<Polygon> poly = std::dynamic_pointer_cast<Polygon>(current_shape_)) {     
+                poly->add_point(end_point_.x, end_point_.y);
+            }           //要转换一下才能调用否则会报错
        }
     } 
     //其余类型转移到release中

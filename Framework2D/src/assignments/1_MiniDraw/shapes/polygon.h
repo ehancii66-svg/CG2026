@@ -3,6 +3,7 @@
 #include "shape.h"
 
 #include <vector>
+#include <imgui.h>
 
 namespace USTC_CG
 {
@@ -23,7 +24,7 @@ class Polygon : public Shape
     // interaction
     void update(float x, float y) override;
 
-    void add_point(float x, float y);   //添加新的点
+    void add_point(float x, float y);   //添加新的多边形端点
 
    private:
    std::vector<ImVec2> points_;
