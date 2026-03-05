@@ -20,6 +20,11 @@ class Polygon : public Shape
     // Overrides draw function to implement Polygon-specific drawing logic
     void draw(const Config& config) const override;
 
+    void set_closed();        //设置闭合
+
+    void drop_last_point();         //删掉预览点（最后一个点）
+   
+
     // Overrides Shape's update function to adjust the end point during
     // interaction
     void update(float x, float y) override;
@@ -28,5 +33,7 @@ class Polygon : public Shape
 
    private:
    std::vector<ImVec2> points_;
+
+   bool is_closed_ = false;   //用来标记多边形是已闭合
 };
 }  // namespace USTC_CG

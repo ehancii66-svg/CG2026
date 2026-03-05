@@ -1,16 +1,15 @@
-#include "polygon.h"
+#include "freehand.h"
 
 #include <imgui.h>
 
 namespace USTC_CG
 {
-Polygon::Polygon(float start_point_x, float start_point_y) {
-    points_.push_back(ImVec2(start_point_x, start_point_y));
+Freehand::Freehand(float start_point_x, float start_point_y) {
     points_.push_back(ImVec2(start_point_x, start_point_y));
 }
 
-void Polygon::draw(const Config& config) const {
-    if(points_.empty()){
+void Freehand::draw(const Config& config) const {
+    if(points_.size() < 2){
         return;
     }
 
@@ -23,8 +22,6 @@ void Polygon::draw(const Config& config) const {
         draw_points.push_back(ImVec2(config.bias[0] + pt.x, config.bias[1] + pt.y));
     }
 
-    ImDrawFlags flags = is_closed_ ? ImDrawFlags_Closed : ImDrawFlags_None;
-
     draw_list->AddPolyline(
         draw_points.data(),
         draw_points.size(),
@@ -33,28 +30,14 @@ void Polygon::draw(const Config& config) const {
             config.line_color[1],
             config.line_color[2],
             config.line_color[3]),
-        flags,              //根据右键自动判断是否闭合
+        ImDrawFlags_None,             //不自动闭合
         config.line_thickness);
 }
 
-void Polygon::update(float x, float y){
+void Freehand::update(float x, float y){
     if(!points_.empty()){
-        points_.back() = ImVec2(x, y);
+        points_.push_back(ImVec2(x, y));
     }   
-}
-
-void Polygon::add_point(float x, float y){
-    points_.push_back(ImVec2(x, y));
-}
-
-void Polygon::set_closed(){
-    is_closed_ = true;
-}
-
-void Polygon::drop_last_point(){
-    if(points_.size() > 1){
-        points_.pop_back();
-    }
 }
 
 }

@@ -54,12 +54,14 @@ void MiniDraw::draw_canvas()
             p_canvas_->set_polygon();
         }
         ImGui::SameLine();
-        /* TODO: f(ImGui::Button("Freehand"))
+        
+        if(ImGui::Button("Freehand"))
         {
             std::cout << "Set shape to Freehand" << std::endl;
-            //p_canvas_->set_freehand();
+            p_canvas_->set_freehand();
         }
-        ImGui::SameLine();*/
+
+        ImGui::SameLine();
         if(ImGui::Button("Default"))
         {
             std::cout << "Set shape to Default" << std::endl;
@@ -71,6 +73,19 @@ void MiniDraw::draw_canvas()
             std::cout << "Clear canvas" << std::endl;
             p_canvas_->clear_shape_list();
         }
+        ImGui::Separator(); 
+        if(ImGui::ColorEdit4("Shape Color", p_canvas_->current_color_)){
+            std::cout << "the color changed to:" 
+                      <<"R:"
+                      << p_canvas_->current_color_[0] << ",G: "
+                      << p_canvas_->current_color_[1] << ",B:"
+                      << p_canvas_->current_color_[2] <<
+                    std::endl;
+        }
+        ImGui::Separator();
+        if(ImGui::SliderFloat("Thickness", &p_canvas_->current_thickness_, 1.0f, 10.0f)){
+            std::cout << "the thickness changed to:" << p_canvas_->current_thickness_ << std::endl;
+        }
 
 
 
@@ -81,6 +96,7 @@ void MiniDraw::draw_canvas()
         
         // Canvas component
         ImGui::Text("Press left mouse to add shapes.");
+        ImGui::Text("Press right mouse to make the polygon closed.");
         // Set the canvas to fill the rest of the window
         const auto& canvas_min = ImGui::GetCursorScreenPos();
         const auto& canvas_size = ImGui::GetContentRegionAvail();
