@@ -15,6 +15,8 @@ class Shape
         float line_thickness = 2.0f;
     };
 
+    Config config;          //用来改变config
+
    public:
     virtual ~Shape() = default;
 

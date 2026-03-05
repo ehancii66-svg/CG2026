@@ -29,6 +29,7 @@ class Canvas : public Widget
         kRect = 2,
         kEllipse = 3,
         kPolygon = 4,
+        kFreehand = 5,
     };
 
     // Shape type setters.
@@ -37,6 +38,8 @@ class Canvas : public Widget
     void set_rect();
     void set_ellipse();
     void set_polygon();
+    void set_freehand();
+
     // HW1_TODO: more shape types.
 
     // Clears all shapes from the canvas.
@@ -48,6 +51,9 @@ class Canvas : public Widget
     // Controls the visibility of the canvas background.
     void show_background(bool flag);
 
+    float current_color_[4] = {1.0f, 0.0f, 0.0f, 1.0f}; //用来控制不同的颜色
+    float current_thickness_ = 2.0f; //用来控制线的粗细
+
    private:
     // Drawing functions.
     void draw_background();
@@ -55,6 +61,7 @@ class Canvas : public Widget
 
     // Event handlers for mouse interactions.
     void mouse_click_event();
+    void mouse_right_click_event();
     void mouse_move_event();
     void mouse_release_event();
 
