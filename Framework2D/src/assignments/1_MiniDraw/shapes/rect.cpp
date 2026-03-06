@@ -9,6 +9,18 @@ void Rect::draw(const Config& config) const
 {
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
+    if(config.show_fill) {
+        draw_list->AddRectFilled(
+            ImVec2(
+                config.bias[0] + start_point_x_, config.bias[1] + start_point_y_),
+            ImVec2(config.bias[0] + end_point_x_, config.bias[1] + end_point_y_),
+            IM_COL32(
+                config.fill_color[0],
+                config.fill_color[1],
+                config.fill_color[2],
+                config.fill_color[3]));
+    }
+
     draw_list->AddRect(
         ImVec2(
             config.bias[0] + start_point_x_, config.bias[1] + start_point_y_),

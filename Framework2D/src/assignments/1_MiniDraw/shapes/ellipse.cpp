@@ -17,6 +17,17 @@ void Ellipse::draw(const Config& config) const
     float radius_x = std::abs(end_point_x_ - start_point_x_) / 2.0f;
     float radius_y = std::abs(end_point_y_ - start_point_y_) / 2.0f;
 
+    if(config.show_fill) {
+        draw_list->AddEllipseFilled(
+            ImVec2(config.bias[0] + center_x, config.bias[1] + center_y),
+            ImVec2(radius_x, radius_y),
+            IM_COL32(
+                config.fill_color[0],
+                config.fill_color[1],
+                config.fill_color[2],
+                config.fill_color[3]));
+    }
+
     draw_list->AddEllipse(
         ImVec2(config.bias[0] + center_x, config.bias[1] + center_y),
         ImVec2(radius_x, radius_y),

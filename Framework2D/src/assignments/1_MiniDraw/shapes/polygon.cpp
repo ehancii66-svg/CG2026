@@ -23,6 +23,17 @@ void Polygon::draw(const Config& config) const {
         draw_points.push_back(ImVec2(config.bias[0] + pt.x, config.bias[1] + pt.y));
     }
 
+    if(config.show_fill && draw_points.size() > 2) {
+        draw_list->AddConvexPolyFilled(
+            draw_points.data(),
+            draw_points.size(),
+            IM_COL32(
+                config.fill_color[0],
+                config.fill_color[1],
+                config.fill_color[2],
+                config.fill_color[3]));
+    }
+
     ImDrawFlags flags = is_closed_ ? ImDrawFlags_Closed : ImDrawFlags_None;
 
     draw_list->AddPolyline(

@@ -40,6 +40,9 @@ class Canvas : public Widget
     void set_polygon();
     void set_freehand();
 
+    void undo();
+    void redo();
+
     // HW1_TODO: more shape types.
 
     // Clears all shapes from the canvas.
@@ -53,6 +56,8 @@ class Canvas : public Widget
 
     float current_color_[4] = {1.0f, 0.0f, 0.0f, 1.0f}; //用来控制不同的颜色
     float current_thickness_ = 2.0f; //用来控制线的粗细
+    float current_fill_color_[4] = {1.0f, 1.0f, 1.0f, 1.0f}; //用来控制填充颜色
+    bool show_fill_ = false; //填充开关
 
    private:
     // Drawing functions.
@@ -89,6 +94,7 @@ class Canvas : public Widget
 
     // List of shapes drawn on the canvas.
     std::vector<std::shared_ptr<Shape>> shape_list_;
+    std::vector<std::shared_ptr<Shape>> undo_list_; //用来实现撤销功能
 };
 
 }  // namespace USTC_CG

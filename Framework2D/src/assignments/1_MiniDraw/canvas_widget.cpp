@@ -82,6 +82,7 @@ void Canvas::set_freehand(){
 void Canvas::clear_shape_list()
 {
     shape_list_.clear();
+    undo_list_.clear();
 }
 
 void Canvas::draw_background()
@@ -188,6 +189,11 @@ void Canvas::mouse_click_event()
                 current_shape_->config.line_color[2] = static_cast<unsigned char>(current_color_[2] * 255);
                 current_shape_->config.line_color[3] = static_cast<unsigned char>(current_color_[3] * 255);
                 current_shape_->config.line_thickness = current_thickness_;
+                current_shape_->config.show_fill = show_fill_;
+                current_shape_->config.fill_color[0] = static_cast<unsigned char>(current_fill_color_[0] * 255);
+                current_shape_->config.fill_color[1] = static_cast<unsigned char>(current_fill_color_[1] * 255);
+                current_shape_->config.fill_color[2] = static_cast<unsigned char>(current_fill_color_[2] * 255);
+                current_shape_->config.fill_color[3] = static_cast<unsigned char>(current_fill_color_[3] * 255);
             }
 
     }
@@ -211,6 +217,7 @@ void Canvas::mouse_right_click_event(){
                 poly->set_closed();
             } 
             shape_list_.push_back(current_shape_);
+            undo_list_.clear();     //右键封闭多边形后清空redo栈(也不是栈)
             current_shape_.reset();
         }
     }
@@ -237,6 +244,7 @@ void Canvas::mouse_release_event()
         if (current_shape_)
         {
             shape_list_.push_back(current_shape_);
+            undo_list_.clear();     //每次新建图形后清空redo栈)
             current_shape_.reset();
         }
     }
@@ -249,4 +257,19 @@ ImVec2 Canvas::mouse_pos_in_canvas() const
         io.MousePos.x - canvas_min_.x, io.MousePos.y - canvas_min_.y);
     return mouse_pos_in_canvas;
 }
+
+void Canvas::undo() {
+    if(!shape_list_.empty()){
+        undo_list_.push_back(shape_list_.back());
+        shape_list_.pop_back();
+    }
+}
+
+void Canvas::redo() {
+    if(!undo_list_.empty()){
+        shape_list_.push_back(undo_list_.back());
+        undo_list_.pop_back();
+    }
+}
+
 }  // namespace USTC_CG

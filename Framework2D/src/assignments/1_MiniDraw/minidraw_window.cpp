@@ -36,18 +36,21 @@ void MiniDraw::draw_canvas()
             p_canvas_->set_line();
         }
         ImGui::SameLine();
+
         if (ImGui::Button("Rect"))
         {
             std::cout << "Set shape to Rect" << std::endl;
             p_canvas_->set_rect();
         }
         ImGui::SameLine();
+        
         if (ImGui::Button("Ellipse"))
         {
             std::cout << "Set shape to Ellipse" << std::endl;
             p_canvas_->set_ellipse();
         }
         ImGui::SameLine();
+
         if(ImGui::Button("Polygon"))
         {
             std::cout << "Set shape to Polygon" << std::endl;
@@ -62,18 +65,37 @@ void MiniDraw::draw_canvas()
         }
 
         ImGui::SameLine();
+
         if(ImGui::Button("Default"))
         {
             std::cout << "Set shape to Default" << std::endl;
             p_canvas_->set_default();
         }
         ImGui::SameLine();
+
+        if (ImGui::Button("Undo")) {
+
+            std::cout << "Undo last shape" << std::endl;
+            p_canvas_->undo();
+
+        }
+        ImGui::SameLine();
+        
+        if (ImGui::Button("Redo")) {
+
+            std::cout << "Redo last undone shape" << std::endl;
+            p_canvas_->redo();
+            
+        }
+        ImGui::SameLine();
+
         if (ImGui::Button("Clear"))
         {
             std::cout << "Clear canvas" << std::endl;
             p_canvas_->clear_shape_list();
         }
         ImGui::Separator(); 
+
         if(ImGui::ColorEdit4("Shape Color", p_canvas_->current_color_)){
             std::cout << "the color changed to:" 
                       <<"R:"
@@ -83,10 +105,25 @@ void MiniDraw::draw_canvas()
                     std::endl;
         }
         ImGui::Separator();
+
         if(ImGui::SliderFloat("Thickness", &p_canvas_->current_thickness_, 1.0f, 10.0f)){
             std::cout << "the thickness changed to:" << p_canvas_->current_thickness_ << std::endl;
         }
+        ImGui::Separator();
 
+        if(ImGui::Checkbox("Enable Fill", &p_canvas_->show_fill_)) {
+            std::cout << "Fill enabled: " << (p_canvas_->show_fill_ ? "Yes" : "No") << std::endl;
+        }
+        if(p_canvas_->show_fill_){
+            if(ImGui::ColorEdit4("Fill Color", p_canvas_->current_fill_color_)){
+                std::cout << "the fill color changed to:" 
+                          <<"R:"
+                          << p_canvas_->current_fill_color_[0] << ",G: "
+                          << p_canvas_->current_fill_color_[1] << ",B:"
+                          << p_canvas_->current_fill_color_[2] <<
+                        std::endl;
+            }
+        }
 
 
         // HW1_TODO: More primitives
