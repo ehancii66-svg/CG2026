@@ -23,12 +23,6 @@ class Polygon : public Shape
     void set_closed();        //设置闭合
 
     void drop_last_point();         //删掉预览点（最后一个点）
-
-   // Whether polygon has enough committed vertices to close.
-   bool can_close() const;
-
-   // Number of committed vertices (excluding preview point while drawing).
-   int committed_vertex_count() const;
    
 
     // Overrides Shape's update function to adjust the end point during
