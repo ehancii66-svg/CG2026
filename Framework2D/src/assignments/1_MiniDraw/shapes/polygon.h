@@ -31,6 +31,10 @@ class Polygon : public Shape
 
     void add_point(float x, float y);   //添加新的多边形端点
 
+    size_t get_point_count() const { 
+      return points_.size(); 
+   }                       //获取端点数量
+
    private:
    std::vector<ImVec2> points_;
 

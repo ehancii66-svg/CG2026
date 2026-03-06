@@ -85,7 +85,7 @@ void MiniDraw::draw_canvas()
 
             std::cout << "Redo last undone shape" << std::endl;
             p_canvas_->redo();
-            
+        
         }
         ImGui::SameLine();
 
@@ -115,6 +115,7 @@ void MiniDraw::draw_canvas()
             std::cout << "Fill enabled: " << (p_canvas_->show_fill_ ? "Yes" : "No") << std::endl;
         }
         if(p_canvas_->show_fill_){
+            ImGui::Text("(Note: Fill only supports convex polygons)");
             if(ImGui::ColorEdit4("Fill Color", p_canvas_->current_fill_color_)){
                 std::cout << "the fill color changed to:" 
                           <<"R:"

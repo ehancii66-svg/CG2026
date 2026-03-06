@@ -213,11 +213,17 @@ void Canvas::mouse_right_click_event(){
         if (current_shape_)
         {
             if(std::shared_ptr<Polygon> poly = std::dynamic_pointer_cast<Polygon>(current_shape_)) {  
-                poly->drop_last_point();    
-                poly->set_closed();
+                poly->drop_last_point();
+                if (poly->get_point_count() > 2) {
+                    poly->set_closed();
+                    shape_list_.push_back(current_shape_);
+                    undo_list_.clear(); 
+                }
+                else{
+                    std::cout << "No enough points!" << std::endl;
+                    std::cout << "how can two points form a polygon ? u r a little stupid! xixi" << std::endl;
+                }    
             } 
-            shape_list_.push_back(current_shape_);
-            undo_list_.clear();     //右键封闭多边形后清空redo栈(也不是栈)
             current_shape_.reset();
         }
     }

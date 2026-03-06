@@ -88,7 +88,7 @@ class Canvas : public Widget
     bool is_hovered_, is_active_;
 
     // Current shape being drawn.
-    ShapeType shape_type_;
+    ShapeType shape_type_ = kDefault; //赋初值
     ImVec2 start_point_, end_point_;
     std::shared_ptr<Shape> current_shape_;
 
